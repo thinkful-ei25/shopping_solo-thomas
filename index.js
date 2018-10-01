@@ -24,7 +24,7 @@ function generateItemElement(item, itemIndex, template){
       <button class="shopping-item-delete js-item-delete">
           <span class="button-label">delete</span>
       </button>
-      <form id="js-shopping-list-edit-form">
+      <form class="js-shopping-list-edit-form">
       <label for="shopping-list-edit">Edit item</label>
       <input type="text" name="shopping-list-edit" class="js-shopping-list-edit" placeholder="e.g., broccoli">
       <button class="shopping-item-edit js-item-edit">
@@ -79,8 +79,9 @@ function handleNewItemSubmit() {
 }
 
 function handleNewSearch() {
-  $('#js-shopping-list-form').submit(function(event) {
+  $('#js-shopping-list-search-form').submit(function(event) {
     event.preventDefault();
+    console.log('handleNewSearch called');
     const newSearchItemName = $('.js-search-shopping-list').val();
     console.log(newSearchItemName);
     $('.js-search-shopping-list').val('');
@@ -142,12 +143,14 @@ function handleToggleHideClick() {
 function editItem(itemIndex, editItemName) {
   STORE.items[itemIndex].name = editItemName;
 }
+
 function handleEditItem() {
-  $('#js-shopping-list-edit-form').submit(function(event) {
+  $('.js-shopping-list').submit('.js-shopping-list-edit-form', function(event) {
     event.preventDefault();
-    const itemIndex = getItemIndexFromElement(event.currentTarget);
-    const editItemName = $('.js-shopping-list-edit').val();
-    $('.js-shopping-list-edit').val('');
+    const itemIndex = getItemIndexFromElement(event.target);
+    console.log(event.target);
+    const editItemName = $(event.target).find('.js-shopping-list-edit').val();
+    $(event.target).find('.js-shopping-list-edit').val('');
     console.log(itemIndex);
     console.log(editItemName);
     editItem(itemIndex, editItemName);
